@@ -17,6 +17,7 @@ Learning Links | Description
 [Things you can do with a pi](https://www.youtube.com/watch?v=0XTcJ5-0u00)|Projects to to get you thinking
 [Soldering the header on the pi](https://www.youtube.com/watch?v=UDdbaMk39tM)|Its done, but you can still watch
 [Raspberry python robotics](https://www.youtube.com/watch?v=41IO4Qe5Jzw)|some useful information on python development
+[Motor controler pin-out](https://2.bp.blogspot.com/-xWf_zFTGiHg/Vg2VVGX20LI/AAAAAAAAAz8/Gve48_08Xg0/s1600/Diagram_of_L293D.jpg)| Pinout of the motor controler we will discuss on class 3
 
 
 ## NOTES
