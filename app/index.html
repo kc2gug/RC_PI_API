@@ -94,7 +94,7 @@ function sendCoor(x,y) {
     var coor = fixXY(x,y);
     if (document.getElementById("demo").innerHTML != coor){
 	//alert(coor);
-	xmlhttp.open("POST","http://pi.ureway.com:3030/"+coor, true); //cgi-bin/controlpad2.py", true);
+	xmlhttp.open("POST","http://192.168.1.240:3030/"+coor, true); //cgi-bin/controlpad2.py", true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xmlhttp.send(coor);
 	document.getElementById("demo").innerHTML = coor;

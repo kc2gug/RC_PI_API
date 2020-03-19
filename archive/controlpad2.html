@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#circle {
+    border-radius: 75%;
+    display: inline-block;
+    margin-right: 40px;
+    background: #FFCC66;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+}
+
+#square {
+    background: #FFCC66;
+    width: 202px;
+    height: 300px;
+    border: 1px solid black;
+    background: #CCFF99;
+}
+
+</style>
+</head>
+<body>
+<div id="mouseStat" style="display: none;">up</div>
+<div id="square">
+  <div id="circle" onmouseout="clearCoor()" onmousedown="setDown()" onmouseup="clearCoor()" onmousemove="showCoords(event)" ontouchstart="setDown()" ontouchmove="showTCoords(event)" ontouchend="clearCoor()" ontouchcancel="clearCoor()"></div>
+</div>
+<p id="demo"></p>
+
+<script>
+
+var xmlhttp;
+if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+}
+else{// code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+function setDown() {
+    document.getElementById("mouseStat").innerHTML="down";
+}
+
+function showTCoords(event) {
+    var isDown = document.getElementById("mouseStat").innerHTML;
+    if (isDown == "down"){
+	//alert (isDown);
+        var x = Math.floor(event.originalEvent.touches[0].pageX/50-10);
+        var y = Math.floor(-(event.originalEvent.touches[0].pageY/50-11));
+	sendCoor(x,y);
+    }
+}
+function showCoords(event) {
+    var isDown = document.getElementById("mouseStat").innerHTML;
+    if (isDown == "down"){
+        var x = Math.floor(event.clientX/10-10);
+        var y = Math.floor(-(event.clientY/10-11));
+	sendCoor(x,y);
+    }
+}
+
+function clearCoor() {
+    document.getElementById("mouseStat").innerHTML="up";
+    
+    sendCoor(0,0);
+}
+
+function ZOT(value) {
+    var returnVal=0;
+    if (value > 3){
+        if  (value > 5){
+            returnVal=2;
+        }else{
+            returnVal=1;
+        }
+    }
+    return returnVal;
+}
+
+
+function fixXY(x,y) {
+    var theX=ZOT(Math.abs(x));
+    var theY=ZOT(Math.abs(y));
+
+    if (x < 0){theX=0-theX;}
+    if (y < 0){theY=0-theY;}
+    return ("X="+theX+"&Y="+theY);
+}
+
+
+function sendCoor(x,y) {
+    var coor = fixXY(x,y);
+    if (document.getElementById("demo").innerHTML != coor){
+	//alert(coor);
+	xmlhttp.open("POST","http://192.168.1.240:3030/"+coor, true); //cgi-bin/controlpad2.py", true);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.send(coor);
+	document.getElementById("demo").innerHTML = coor;
+    }
+}
+</script>
+
+</body>
+</html>
+

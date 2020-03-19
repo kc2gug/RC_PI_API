@@ -1,30 +1,33 @@
 #!/usr/bin/env python
 # server.py
- 
+
 import socket
+import SocketServer
 import select
 import config as cfg
 import Queue
 
 import RPi.GPIO as GPIO
 
+import SimpleHTTPServer
+
 from threading import Thread
 from time import sleep
 from random import randint
 import sys
- 
+
 class ProcessThread(Thread):
     def __init__(self):
         super(ProcessThread, self).__init__()
         self.running = True
         self.q = Queue.Queue()
- 
+
     def add(self, data):
         self.q.put(data)
- 
+
     def stop(self):
         self.running = False
- 
+
     def run(self):
         q = self.q
         while self.running:
@@ -40,7 +43,7 @@ class ProcessThread(Thread):
             print "Elements left in the queue:"
             while not q.empty():
                 print q.get()
- 
+
 t = ProcessThread()
 t.start()
 
@@ -54,7 +57,7 @@ GPIO.output(7,False)
 GPIO.output(11,False)
 GPIO.output(13,False)
 GPIO.output(15,False)
- 
+
 def process(value):
 	#GPIO.output(7, True)
 	#GPIO.output(11, False)
@@ -87,7 +90,7 @@ def process(value):
 		GPIO.output(11,False)
 		GPIO.output(13,True)
 		GPIO.output(15,False)
-	elif xVal == 0 and yVal > 0: ## BL 
+	elif xVal == 0 and yVal > 0: ## BL
 		GPIO.output(7,False)
 		GPIO.output(11,False)
 		GPIO.output(13,False)
@@ -112,12 +115,18 @@ def process(value):
 	print yVal;
 
 def main():
+
+    handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+    httpd = SocketServer.TCPServer(("",cfg.SIMPORT), handler)
+    print "Web server started on port: ", cfg.SIMPORT
+    ##httpd.serve_forever()
+
     s = socket.socket()         # Create a socket object
     host = socket.gethostname() # Get local machine name
     port = cfg.PORT                # Reserve a port for your service.
     s.bind((host, port))        # Bind to the port
     print "Listening on port {p}...".format(p=port)
- 
+
     s.listen(5)                 # Now wait for client connection.
     while True:
         try:
@@ -125,7 +134,7 @@ def main():
             ready = select.select([client,],[], [],2)
             if ready[0]:
                 data = client.recv(4096)
-                #print data
+                print data
                 t.add(data)
         except KeyboardInterrupt:
             print
@@ -134,18 +143,14 @@ def main():
         except socket.error, msg:
             print "Socket error! %s" % msg
             break
-    #
     cleanup()
- 
+
 def cleanup():
+    GPIO.cleanup()
     t.stop()
     t.join()
- 
+
 #########################################################
- 
+
 if __name__ == "__main__":
     main()
-#!/usr/bin/env python
-
-
-
