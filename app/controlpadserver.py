@@ -9,8 +9,6 @@ import Queue
 
 import RPi.GPIO as GPIO
 
-import SimpleHTTPServer
-
 from threading import Thread
 from time import sleep
 from random import randint
@@ -59,68 +57,62 @@ GPIO.output(13,False)
 GPIO.output(15,False)
 
 def process(value):
-	#GPIO.output(7, True)
-	#GPIO.output(11, False)
-	xySplit = value.split()[len(value.split())-1].split('&',2);
-	xVal = int(xySplit[0].split('=',2)[1]);
-	yVal = int(xySplit[1].split('=',2)[1]);
+    #GPIO.output(7, True)
+    #GPIO.output(11, False)
+    xySplit = value.split()[len(value.split())-1].split('&',2);
+    xVal = int(xySplit[0].split('=',2)[1]);
+    yVal = int(xySplit[1].split('=',2)[1]);
 
-	if xVal == 0 and yVal > 0: ## FORWARD
-		GPIO.output(7,True)
-		GPIO.output(11,False)
-		GPIO.output(13,True)
-		GPIO.output(15,False)
-	elif xVal == 0 and yVal < 0: ## BACKWARD
-		GPIO.output(7,False)
-		GPIO.output(11,True)
-		GPIO.output(13,False)
-		GPIO.output(15,True)
-	elif xVal > 0 and yVal == 0: ## SPIN RIGHT
-		GPIO.output(7,False)
-		GPIO.output(11,True)
-		GPIO.output(13,True)
-		GPIO.output(15,False)
-	elif xVal < 0 and yVal == 0: ## SPIN LEFT
-		GPIO.output(7,True)
-		GPIO.output(11,False)
-		GPIO.output(13,False)
-		GPIO.output(15,True)
-	elif xVal == 0 and yVal > 0: ## FL
-		GPIO.output(7,False)
-		GPIO.output(11,False)
-		GPIO.output(13,True)
-		GPIO.output(15,False)
-	elif xVal == 0 and yVal > 0: ## BL
-		GPIO.output(7,False)
-		GPIO.output(11,False)
-		GPIO.output(13,False)
-		GPIO.output(15,True)
-	elif xVal == 0 and yVal > 0: ## BR
-		GPIO.output(7,False)
-		GPIO.output(11,True)
-		GPIO.output(13,False)
-		GPIO.output(15,False)
-	elif xVal == 0 and yVal > 0: ## FR
-		GPIO.output(7,False)
-		GPIO.output(11,False)
-		GPIO.output(13,True)
-		GPIO.output(15,False)
-	else: ## STOP
-		GPIO.output(7,False)
-		GPIO.output(11,False)
-		GPIO.output(13,False)
-		GPIO.output(15,False)
-		
-	print xVal;
-	print yVal;
+    if xVal == 0 and yVal > 0: ## FORWARD
+        GPIO.output(7,True)
+        GPIO.output(11,False)
+        GPIO.output(13,True)
+        GPIO.output(15,False)
+    elif xVal == 0 and yVal < 0: ## BACKWARD
+        GPIO.output(7,False)
+        GPIO.output(11,True)
+        GPIO.output(13,False)
+        GPIO.output(15,True)
+    elif xVal > 0 and yVal == 0: ## SPIN RIGHT
+        GPIO.output(7,False)
+        GPIO.output(11,True)
+        GPIO.output(13,True)
+        GPIO.output(15,False)
+    elif xVal < 0 and yVal == 0: ## SPIN LEFT
+        GPIO.output(7,True)
+        GPIO.output(11,False)
+        GPIO.output(13,False)
+        GPIO.output(15,True)
+    elif xVal == 0 and yVal > 0: ## FL
+        GPIO.output(7,False)
+        GPIO.output(11,False)
+        GPIO.output(13,True)
+        GPIO.output(15,False)
+    elif xVal == 0 and yVal > 0: ## BL
+        GPIO.output(7,False)
+        GPIO.output(11,False)
+        GPIO.output(13,False)
+        GPIO.output(15,True)
+    elif xVal == 0 and yVal > 0: ## BR
+        GPIO.output(7,False)
+        GPIO.output(11,True)
+        GPIO.output(13,False)
+        GPIO.output(15,False)
+    elif xVal == 0 and yVal > 0: ## FR
+        GPIO.output(7,False)
+        GPIO.output(11,False)
+        GPIO.output(13,True)
+        GPIO.output(15,False)
+    else: ## STOP
+        GPIO.output(7,False)
+        GPIO.output(11,False)
+        GPIO.output(13,False)
+        GPIO.output(15,False)
+        
+    print xVal;
+    print yVal;
 
 def main():
-
-    handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-    httpd = SocketServer.TCPServer(("",cfg.SIMPORT), handler)
-    print "Web server started on port: ", cfg.SIMPORT
-    ##httpd.serve_forever()
-
     s = socket.socket()         # Create a socket object
     host = socket.gethostname() # Get local machine name
     port = cfg.PORT                # Reserve a port for your service.
