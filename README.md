@@ -28,6 +28,8 @@ GPIO|Stands for "General Purpose Input/Output." GPIO is a type of pin found on a
 ## NOTES
 On your pi!
 * open a terminal
+* sudo sed -i s/"^#PasswordAuthentication yes"/"PasswordAuthentication yes"/ /etc/ssh/sshd_config
+* sudo service ssh restart
 
 type:
 * ssh-keygen -b 4096
