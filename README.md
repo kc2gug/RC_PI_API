@@ -44,6 +44,8 @@ Now ....:
 * select you icon dropdown
 * select settings 
 * select "SSH and GPG Keys"
-select "new ssh key"
-give it a name
-paste in the output on the terminal
+* select "new ssh key"
+* give it a name
+* paste in the output from the cat .ssh/id_rsa.pub command you ran above.
+
+
