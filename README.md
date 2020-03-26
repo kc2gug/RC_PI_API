@@ -28,20 +28,35 @@ GPIO|Stands for "General Purpose Input/Output." GPIO is a type of pin found on a
 ## NOTES
 On your pi!
 * open a terminal
+* sudo sed -i s/"^#PasswordAuthentication yes"/"PasswordAuthentication yes"/ /etc/ssh/sshd_config
+* sudo service ssh restart
 
-type:
+Get the IP address of your rasbperry pi
+* ifconfig wlan0 | grep "inet " | awk '{print #2}'  
+
+From windows open putty and connect ot the pi using the IP address from above. In my case it is 192.168.1.240, yours will be different.
+
+From mac or ubuntu(or any unix os) open a terminal and type ssh pi@<output from ifconfig>
+  
+In both cases username = pi, and password = raspberry
+
+If you have not created ssh keys type:
 * ssh-keygen -b 4096
+
+Now from your pi, or ssh/putty session:
 * cd
 * cat .ssh/id_rsa.pub
 
 Now ....:
 * highlight and copy the output from that command
-* open a web browser (upper left corner, ball with lines on it)
+* open a web browser (upper left corner, ball with lines on it on the pi)
 * go to github.com and login
 * in the upper right corner 
 * select you icon dropdown
 * select settings 
 * select "SSH and GPG Keys"
-select "new ssh key"
-give it a name
-paste in the output on the terminal
+* select "new ssh key"
+* give it a name
+* paste in the output from the cat .ssh/id_rsa.pub command you ran above.
+
+
