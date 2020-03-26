@@ -46,10 +46,10 @@ function setDown() {
 function showTCoords(event) {
     var isDown = document.getElementById("mouseStat").innerHTML;
     if (isDown == "down"){
-	//alert (isDown);
+    //alert (isDown);
         var x = Math.floor(event.originalEvent.touches[0].pageX/50-10);
         var y = Math.floor(-(event.originalEvent.touches[0].pageY/50-11));
-	sendCoor(x,y);
+    sendCoor(x,y);
     }
 }
 function showCoords(event) {
@@ -57,7 +57,7 @@ function showCoords(event) {
     if (isDown == "down"){
         var x = Math.floor(event.clientX/10-10);
         var y = Math.floor(-(event.clientY/10-11));
-	sendCoor(x,y);
+    sendCoor(x,y);
     }
 }
 
@@ -93,11 +93,11 @@ function fixXY(x,y) {
 function sendCoor(x,y) {
     var coor = fixXY(x,y);
     if (document.getElementById("demo").innerHTML != coor){
-	//alert(coor);
-	xmlhttp.open("POST","http://192.168.1.240:3030/"+coor, true); //cgi-bin/controlpad2.py", true);
-	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	xmlhttp.send(coor);
-	document.getElementById("demo").innerHTML = coor;
+    //alert(coor);
+    xmlhttp.open("POST","http://192.168.1.240:3030/"+coor, true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send(coor);
+    document.getElementById("demo").innerHTML = coor;
     }
 }
 </script>

@@ -7,5 +7,6 @@ cd $(dirname $0)
 python -m SimpleHTTPServer &
 simple_pid="$!"
 ./controlpadserver.py
-echo "Stopping HTTP server : pid = $simple_pid"
+echo -e "\nStopping HTTP server : pid = $simple_pid"
+sleep 2
 kill $simple_pid
