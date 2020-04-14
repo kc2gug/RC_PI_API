@@ -29,6 +29,7 @@ GPIO|Stands for "General Purpose Input/Output." GPIO is a type of pin found on a
 On your pi!
 * open a terminal
 * sudo sed -i s/"^#PasswordAuthentication yes"/"PasswordAuthentication yes"/ /etc/ssh/sshd_config
+* sudo systemctl enable ssh
 * sudo service ssh restart
 
 Get the IP address of your rasbperry pi
