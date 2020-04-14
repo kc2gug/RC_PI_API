@@ -82,22 +82,22 @@ def process(value):
         GPIO.output(11,False)
         GPIO.output(13,False)
         GPIO.output(15,True)
-    elif xVal == 0 and yVal > 0: ## FL
-        GPIO.output(33,False)
+    elif xVal < 0 and yVal > 0: ## FL
+        GPIO.output(33,True)
         GPIO.output(11,False)
-        GPIO.output(13,True)
+        GPIO.output(13,False)
         GPIO.output(15,False)
-    elif xVal == 0 and yVal > 0: ## BL
+    elif xVal < 0 and yVal < 0: ## BL
         GPIO.output(33,False)
         GPIO.output(11,False)
         GPIO.output(13,False)
         GPIO.output(15,True)
-    elif xVal == 0 and yVal > 0: ## BR
+    elif xVal > 0 and yVal < 0: ## BR
         GPIO.output(33,False)
         GPIO.output(11,True)
         GPIO.output(13,False)
         GPIO.output(15,False)
-    elif xVal == 0 and yVal > 0: ## FR
+    elif xVal > 0 and yVal > 0: ## FR
         GPIO.output(33,False)
         GPIO.output(11,False)
         GPIO.output(13,True)
