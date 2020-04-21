@@ -33,7 +33,7 @@ On your pi!
 * sudo service ssh restart
 
 Get the IP address of your rasbperry pi
-* ifconfig wlan0 | grep "inet " | awk '{print #2}'  
+* ifconfig wlan0 | grep "inet " | awk '{print $2}'  
 
 From windows open putty and connect ot the pi using the IP address from above. In my case it is 192.168.1.240, yours will be different.
 
