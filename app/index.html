@@ -31,6 +31,8 @@
 
 <script>
 
+var thisHost=location.hostname;
+
 var xmlhttp;
 if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
     xmlhttp=new XMLHttpRequest();
@@ -94,7 +96,7 @@ function sendCoor(x,y) {
     var coor = fixXY(x,y);
     if (document.getElementById("demo").innerHTML != coor){
     //alert(coor);
-    xmlhttp.open("POST","http://192.168.1.240:3030/"+coor, true);
+    xmlhttp.open("POST","http://"+thisHost+":3030/"+coor, true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(coor);
     document.getElementById("demo").innerHTML = coor;
