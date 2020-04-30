@@ -61,3 +61,4 @@ Now ....:
 * paste in the output from the cat .ssh/id_rsa.pub command you ran above.
 
 
+
