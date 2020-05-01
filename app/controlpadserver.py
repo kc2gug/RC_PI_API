@@ -47,7 +47,9 @@ t = ProcessThread()
 t.start()
 
 GPIO.setmode(GPIO.BOARD)
-
+for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
+    GPIO.setup(cfg.GPIO_DRIVE_PINS[thing],GPIO.OUT)
+    GPIO.output(cfg.GPIO_DRIVE_PINS[thing],False)
 
 def process(value):
     xySplit = value.split()[len(value.split())-1].split('&',2);
@@ -79,11 +81,7 @@ def process(value):
 def set_gpio(direction):
     for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
         GPIO.output(cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0]["PIN"+str(thing+1)])
-
-def enable_gpio():
-    for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
-        GPIO.setup(cfg.GPIO_DRIVE_PINS[thing],GPIO.OUT)
-        GPIO.output(cfg.GPIO_DRIVE_PINS[thing],False)
+    
 
 def main():
     s = socket.socket()         # Create a socket object
