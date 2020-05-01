@@ -45,17 +45,10 @@ class ProcessThread(Thread):
 
 t = ProcessThread()
 t.start()
+d_defs=json.loads(cfg.DRIVE_DEFS)
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(33,GPIO.OUT)
-GPIO.setup(11,GPIO.OUT)
-GPIO.setup(13,GPIO.OUT)
-GPIO.setup(15,GPIO.OUT)
+PIO.setmode(GPIO.BOARD)
 
-GPIO.output(33,False)
-GPIO.output(11,False)
-GPIO.output(13,False)
-GPIO.output(15,False)
 
 def process(value):
     xySplit = value.split()[len(value.split())-1].split('&',2);
@@ -63,61 +56,42 @@ def process(value):
     yVal = int(xySplit[1].split('=',2)[1]);
 
     if xVal == 0 and yVal > 0: ## FORWARD
-        GPIO.output(33,True)
-        GPIO.output(11,False)
-        GPIO.output(13,True)
-        GPIO.output(15,False)
+        set_gpio(cfg.DRIVE_DIR,"FWD")
     elif xVal == 0 and yVal < 0: ## BACKWARD
-        GPIO.output(33,False)
-        GPIO.output(11,True)
-        GPIO.output(13,False)
-        GPIO.output(15,True)
+        set_gpio(cfg.DRIVE_DIR,"BAK")
     elif xVal > 0 and yVal == 0: ## SPIN RIGHT
-        GPIO.output(33,False)
-        GPIO.output(11,True)
-        GPIO.output(13,True)
-        GPIO.output(15,False)
+        set_gpio(cfg.DRIVE_DIR,"SRT")
     elif xVal < 0 and yVal == 0: ## SPIN LEFT
-        GPIO.output(33,True)
-        GPIO.output(11,False)
-        GPIO.output(13,False)
-        GPIO.output(15,True)
+        set_gpio(cfg.DRIVE_DIR,"SLT")
     elif xVal < 0 and yVal > 0: ## FL
-        GPIO.output(33,True)
-        GPIO.output(11,False)
-        GPIO.output(13,False)
-        GPIO.output(15,False)
+        set_gpio(cfg.DRIVE_DIR,"FWL")
     elif xVal < 0 and yVal < 0: ## BL
-        GPIO.output(33,False)
-        GPIO.output(11,False)
-        GPIO.output(13,False)
-        GPIO.output(15,True)
+        set_gpio(cfg.DRIVE_DIR,"BWL")
     elif xVal > 0 and yVal < 0: ## BR
-        GPIO.output(33,False)
-        GPIO.output(11,True)
-        GPIO.output(13,False)
-        GPIO.output(15,False)
+        set_gpio(cfg.DRIVE_DIR,"BWR")
     elif xVal > 0 and yVal > 0: ## FR
-        GPIO.output(33,False)
-        GPIO.output(11,False)
-        GPIO.output(13,True)
-        GPIO.output(15,False)
+        set_gpio(cfg.DRIVE_DIR,"FWR")
     else: ## STOP
-        GPIO.output(33,False)
-        GPIO.output(11,False)
-        GPIO.output(13,False)
-        GPIO.output(15,False)
+        set_gpio(cfg.DRIVE_DIR,"STP")
         
-    print xVal;
-    print yVal;
+    print xVal
+    print yVal
+
+def set_gpio(drive_dir,direction):
+    for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
+        GPIO.output(cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[drive_dir][0][direction][0]["PIN"+str(thing+1)])
+
+def enable_gpio():
+    for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
+        GPIO.setup(cfg.GPIO_DRIVE_PINS[thing],GPIO.OUT)
+        GPIO.output(cfg.GPIO_DRIVE_PINS[thing],False)
 
 def main():
     s = socket.socket()         # Create a socket object
     host = socket.gethostname() # Get local machine name
-    port = cfg.PORT                # Reserve a port for your service.
     this_ip = subprocess.check_output(['hostname', '--all-ip-addresses']).split(" ",1)[0]
-    s.bind((this_ip, port))        # Bind to the port
-    print "Listening on port ", port," ..."
+    s.bind((this_ip, cfg.PORT))        # Bind to the port
+    print "Listening on port ", cfg.PORT," ..."
     s.listen(5)                 # Now wait for client connection.
     while True:
  
