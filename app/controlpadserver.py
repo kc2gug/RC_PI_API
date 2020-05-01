@@ -46,7 +46,7 @@ class ProcessThread(Thread):
 t = ProcessThread()
 t.start()
 
-PIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BOARD)
 
 
 def process(value):
