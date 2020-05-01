@@ -10,5 +10,5 @@ simple_pid="$!"
 ./controlpadserver.py
 echo -e "\nStopping HTTP server : pid = $simple_pid"
 sleep 2
-kill $simple_pid
+kill -9 $simple_pid
 ./cleanup.py
