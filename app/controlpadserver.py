@@ -80,6 +80,7 @@ def process(value):
 
 def set_gpio(direction):
     for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
+        print (cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0]["PIN"+str(thing+1)])
         GPIO.output(cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0]["PIN"+str(thing+1)])
     
 
