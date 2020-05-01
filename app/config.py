@@ -21,10 +21,10 @@ DRIVE_DEFS={
         "FWD":[{"PIN1": False,"PIN2": True, "PIN3": False,"PIN4": True }],
         "SLT":[{"PIN1": False,"PIN2": True, "PIN3": True, "PIN4": False}],
         "SRT":[{"PIN1": True, "PIN2": False,"PIN3": False,"PIN4": True }],
-        "BWL":[{"PIN1": True, "PIN2": False,"PIN3": False,"PIN4": False}],
-        "FWL":[{"PIN1": False,"PIN2": False,"PIN3": False,"PIN4": True }],
-        "FWR":[{"PIN1": False,"PIN2": True, "PIN3": False,"PIN4": False}],
-        "BWR":[{"PIN1": False,"PIN2": False,"PIN3": True, "PIN4": False}],
+        "BWR":[{"PIN1": True, "PIN2": False,"PIN3": False,"PIN4": False}],
+        "FWR":[{"PIN1": False,"PIN2": False,"PIN3": False,"PIN4": True }],
+        "FWL":[{"PIN1": False,"PIN2": True, "PIN3": False,"PIN4": False}],
+        "BWL":[{"PIN1": False,"PIN2": False,"PIN3": True, "PIN4": False}],
         "STP":[{"PIN1": False,"PIN2": False,"PIN3": False,"PIN4": False}]}]
     }
 
