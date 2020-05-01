@@ -45,7 +45,6 @@ class ProcessThread(Thread):
 
 t = ProcessThread()
 t.start()
-d_defs=json.loads(cfg.DRIVE_DEFS)
 
 PIO.setmode(GPIO.BOARD)
 
@@ -56,30 +55,30 @@ def process(value):
     yVal = int(xySplit[1].split('=',2)[1]);
 
     if xVal == 0 and yVal > 0: ## FORWARD
-        set_gpio(cfg.DRIVE_DIR,"FWD")
+        set_gpio("FWD")
     elif xVal == 0 and yVal < 0: ## BACKWARD
-        set_gpio(cfg.DRIVE_DIR,"BAK")
+        set_gpio("BAK")
     elif xVal > 0 and yVal == 0: ## SPIN RIGHT
-        set_gpio(cfg.DRIVE_DIR,"SRT")
+        set_gpio("SRT")
     elif xVal < 0 and yVal == 0: ## SPIN LEFT
-        set_gpio(cfg.DRIVE_DIR,"SLT")
+        set_gpio("SLT")
     elif xVal < 0 and yVal > 0: ## FL
-        set_gpio(cfg.DRIVE_DIR,"FWL")
+        set_gpio("FWL")
     elif xVal < 0 and yVal < 0: ## BL
-        set_gpio(cfg.DRIVE_DIR,"BWL")
+        set_gpio("BWL")
     elif xVal > 0 and yVal < 0: ## BR
-        set_gpio(cfg.DRIVE_DIR,"BWR")
+        set_gpio("BWR")
     elif xVal > 0 and yVal > 0: ## FR
-        set_gpio(cfg.DRIVE_DIR,"FWR")
+        set_gpio("FWR")
     else: ## STOP
-        set_gpio(cfg.DRIVE_DIR,"STP")
+        set_gpio("STP")
         
     print xVal
     print yVal
 
-def set_gpio(drive_dir,direction):
+def set_gpio(direction):
     for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
-        GPIO.output(cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[drive_dir][0][direction][0]["PIN"+str(thing+1)])
+        GPIO.output(cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0]["PIN"+str(thing+1)])
 
 def enable_gpio():
     for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):

@@ -1,7 +1,7 @@
 #!/usr/bin/evn python
 # testing.py
 
-import json
+##import json
 import config as cfg
 
 print (len(cfg.GPIO_DRIVE_PINS))
