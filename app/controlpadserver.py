@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # server.py
 
+import time
 import socket
 import SocketServer
 import select
@@ -35,7 +36,7 @@ class ProcessThread(Thread):
                 value = q.get(block=True, timeout=5)
                 process(value)
             except Queue.Empty:
-                sys.stdout.write('.')
+                #sys.stdout.write('.')
                 sys.stdout.flush()
         #
         if not q.empty():
@@ -43,13 +44,14 @@ class ProcessThread(Thread):
             while not q.empty():
                 print q.get()
 
+startTime=time.time()
 t = ProcessThread()
 t.start()
 
 GPIO.setmode(GPIO.BOARD)
-for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
-    GPIO.setup(cfg.GPIO_DRIVE_PINS[thing],GPIO.OUT)
-    GPIO.output(cfg.GPIO_DRIVE_PINS[thing],False)
+for thing in range(0,len(cfg.DPIO)):
+    GPIO.setup(cfg.DPIO[thing],GPIO.OUT)
+    GPIO.output(cfg.DPIO[thing],False)
 
 def process(value):
     xySplit = value.split()[len(value.split())-1].split('&',2);
@@ -57,32 +59,36 @@ def process(value):
     yVal = int(xySplit[1].split('=',2)[1]);
 
     if xVal == 0 and yVal > 0: ## FORWARD
-        set_gpio("FWD")
+        set_gpio("FWD",xVal,yVal)
     elif xVal == 0 and yVal < 0: ## BACKWARD
-        set_gpio("BAK")
+        set_gpio("BAK",xVal,yVal)
     elif xVal > 0 and yVal == 0: ## SPIN RIGHT
-        set_gpio("SRT")
+        set_gpio("SRT",xVal,yVal)
     elif xVal < 0 and yVal == 0: ## SPIN LEFT
-        set_gpio("SLT")
+        set_gpio("SLT",xVal,yVal)
     elif xVal < 0 and yVal > 0: ## FL
-        set_gpio("FWL")
+        set_gpio("FWL",xVal,yVal)
     elif xVal < 0 and yVal < 0: ## BL
-        set_gpio("BWL")
+        set_gpio("BWL",xVal,yVal)
     elif xVal > 0 and yVal < 0: ## BR
-        set_gpio("BWR")
+        set_gpio("BWR",xVal,yVal)
     elif xVal > 0 and yVal > 0: ## FR
-        set_gpio("FWR")
+        set_gpio("FWR",xVal,yVal)
     else: ## STOP
-        set_gpio("STP")
-        
-    print xVal
-    print yVal
+        set_gpio("STP",xVal,yVal)
 
-def set_gpio(direction):
-    for thing in range(0,len(cfg.GPIO_DRIVE_PINS)):
-        #print (cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0]["PIN"+str(thing+1)])
-        GPIO.output(cfg.GPIO_DRIVE_PINS[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0]["PIN"+str(thing+1)])
-    
+def set_gpio(direction,xVal,yVal):
+    log_var=""
+    this_time=time.time()
+    since_time=this_time-startTime
+    for thing in range(0,len(cfg.DPIO)):
+        log_var += str(cfg.DPIO[thing])+str(cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0][cfg.DPIO[thing]])
+	##log_var += str(cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0][cfg.DPIO[thing]])
+	if len(cfg.DPIO) != thing:
+            log_var += ":"
+        ##print (cfg.DPIO[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0][cfg.DPIO[thing]])
+        GPIO.output(cfg.DPIO[thing],cfg.DRIVE_DEFS[cfg.DRIVE_DIR][0][direction][0][cfg.DPIO[thing]])
+    print(str(this_time)+":"+str(this_time-startTime)+":X="+str(xVal)+":Y="+str(yVal)+":"+log_var) 
 
 def main():
     s = socket.socket()         # Create a socket object
